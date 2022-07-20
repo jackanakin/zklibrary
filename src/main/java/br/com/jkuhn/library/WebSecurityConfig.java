@@ -1,20 +1,12 @@
 package br.com.jkuhn.library;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import javax.sql.DataSource;
 
@@ -25,8 +17,6 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private DataSource dataSource;
     @Autowired
     private DataSource securityDataSource;
     private static final String ZUL_FILES = "/zkau/web/**/*.zul";
@@ -45,12 +35,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET, ZK_RESOURCES).permitAll() // allow zk resources
             .regexMatchers(HttpMethod.GET, REMOVE_DESKTOP_REGEX).permitAll() // allow desktop cleanup
             .requestMatchers(req -> "rmDesktop".equals(req.getParameter("cmd_0"))).permitAll() // allow desktop cleanup from ZATS
-            .mvcMatchers("/","/login","/logout").permitAll() //permit the URL for login and logout
-            .mvcMatchers("/secure").hasRole("USER")
+                .mvcMatchers("/login","/logout", "/signup").permitAll()
+            //.mvcMatchers("/secure").hasRole("USER")
             .anyRequest().authenticated() //enforce all requests to be authenticated
             .and()
             .formLogin()
-            .loginPage("/login").defaultSuccessUrl("/secure/main")
+            .loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/secure/home")
             .and()
             .logout().logoutUrl("/logout").logoutSuccessUrl("/");
     }

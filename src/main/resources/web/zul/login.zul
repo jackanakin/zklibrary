@@ -7,20 +7,21 @@
             </columns>
             <rows>
                 <row spans="2" align="center">
-                    <label value="LOGIN"/>
+                    <label value="Bem vindo ao acervo Interact"/>
                 </row>
                 <row>
-                    <label value="User :"/>
-                    <textbox name="username" value="user"/></row>
+                    <label value="E-mail:"/>
+                    <textbox name="username" value="jardel"/></row>
                 <row>
-                    <label value="Password :"/>
-                    <textbox type="password" name="password" value="password"/> </row>
+                    <label value="Senha:"/>
+                    <textbox type="password" name="password" value="fun123"/> </row>
                 <row spans="2" align="right">
                     <hlayout>
-                    <button type="reset" label="Reset" /> <button type="submit" label="Login" />
+                     <button type="submit" label="ENTRAR" />
                     </hlayout>
                 </row>
             </rows>
         </grid>
     </n:form>
+    <a href="/signup">SIGNUP</a>
 </zk>

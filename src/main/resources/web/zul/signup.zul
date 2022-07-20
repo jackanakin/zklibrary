@@ -1,0 +1,35 @@
+<zk xmlns:n="native">
+    <n:form action="/signup" method="POST">
+        <grid width="450px">
+            <columns>
+                <column width="160px" />
+                <column width="280px" />
+            </columns>
+            <rows>
+                <row spans="2" align="center">
+                    <label value="Crie uma conta para acessar o acervo Interact"/>
+                </row>
+                <row>
+                    <label value="E-mail:"/>
+                    <textbox name="username" value=""/></row>
+                <row>
+                    <label value="Senha:"/>
+                    <textbox type="password" name="password" value=""/>
+                </row>
+                <row>
+                    <label value="Repita a senha:"/>
+                    <textbox type="password" name="passwordConfirmation" value=""/>
+                </row>
+                <row spans="2" align="right">
+                    <hlayout>
+                        <button type="submit" label="CADASTRAR" />
+                    </hlayout>
+                </row>
+            </rows>
+        </grid>
+    </n:form>
+    <window>
+        This is a spring security + ZK demo app.
+        If you try to access <a href="/login">a secure page</a>, you will be redirected to <a href="login">login page.</a>
+    </window>
+</zk>
