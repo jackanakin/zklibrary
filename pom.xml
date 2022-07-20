@@ -16,6 +16,7 @@
 		<springboot.version>2.5.12</springboot.version>
 		<zats.version>3.0.0</zats.version>
 		<junit.version>4.13.1</junit.version>
+		<postgresql.version>42.3.3</postgresql.version>
 	</properties>
 	<description>a project to show spring security working with ZK based on https://spring.io/guides/gs/securing-web/
 	</description>
@@ -37,6 +38,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 			<version>${springboot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>${springboot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
