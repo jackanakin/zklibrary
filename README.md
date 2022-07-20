@@ -1,0 +1,1 @@
+docker run -d -it --name library_db -e POSTGRES_USER=libraryowner -e POSTGRES_DB=library -e POSTGRES_PASSWORD=libraryownerpasswd -p 5432:5432 postgres
