@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET, ZK_RESOURCES).permitAll() // allow zk resources
             .regexMatchers(HttpMethod.GET, REMOVE_DESKTOP_REGEX).permitAll() // allow desktop cleanup
             .requestMatchers(req -> "rmDesktop".equals(req.getParameter("cmd_0"))).permitAll() // allow desktop cleanup from ZATS
-                .mvcMatchers("/login","/logout", "/signup").permitAll()
+                .mvcMatchers("/login","/logout", "/signup", "/rs/books/**").permitAll()
             //.mvcMatchers("/secure").hasRole("USER")
             .anyRequest().authenticated() //enforce all requests to be authenticated
             .and()
