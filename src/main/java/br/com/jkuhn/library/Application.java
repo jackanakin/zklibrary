@@ -1,7 +1,7 @@
 package br.com.jkuhn.library;
 
-import br.com.jkuhn.library.entidades.Livros;
-import br.com.jkuhn.library.servicos.implementacoes.LivrosServicos;
+import br.com.jkuhn.library.entity.Book;
+import br.com.jkuhn.library.services.implementacoes.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 public class Application {
     @Autowired
-    private LivrosServicos livrosServicos;
+    private BookService bookService;
     public static void main(String[] args) throws Throwable {
         SpringApplication.run(Application.class, args);
     }
@@ -22,7 +22,7 @@ public class Application {
     @GetMapping("/login")
     public String login() {
         System.out.println("AQUI INICIOU O APP");
-        List<Livros> livros = livrosServicos.findAll();
+        List<Book> livros = bookService.findAll();
         System.out.println(livros);
 
         return "login";
