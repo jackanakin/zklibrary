@@ -9,31 +9,23 @@ public class Book {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column
-    private int id;
+    private Long id;
 
     @Column
     private String name;
 
-    @Column
-    private String author;
-
-    @Column
-    private String description;
-
     public Book() {
     }
 
-    public Book(String name, String author, String description) {
+    public Book(String name) {
         this.name = name;
-        this.author = author;
-        this.description = description;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,21 +35,5 @@ public class Book {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

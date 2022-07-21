@@ -1,4 +1,4 @@
-package br.com.jkuhn.library.services.implementacoes;
+package br.com.jkuhn.library.services.implementations;
 
 import br.com.jkuhn.library.dao.IBookDAO;
 import br.com.jkuhn.library.entity.Book;
@@ -9,13 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BookService implements IBookService {
+public class BookServiceImpl implements IBookService {
     @Autowired
     private IBookDAO bookDAO;
 
     @Override
     public List<Book> findAll() {
-        System.out.println("FIND ALL");
         return bookDAO.findAll();
     }
 

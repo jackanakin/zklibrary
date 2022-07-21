@@ -1,7 +1,7 @@
 package br.com.jkuhn.library.rest;
 
 import br.com.jkuhn.library.entity.Book;
-import br.com.jkuhn.library.services.implementacoes.BookService;
+import br.com.jkuhn.library.services.implementations.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +13,11 @@ import java.util.List;
 @RequestMapping("/rs/books")
 public class BooksREST {
     @Autowired
-    private BookService bookService;
+    private BookServiceImpl bookServiceImpl;
 
     @GetMapping("/")
     public List<Book> getBooks() {
-        return bookService.findAll();
+        return bookServiceImpl.findAll();
     }
 
 }
