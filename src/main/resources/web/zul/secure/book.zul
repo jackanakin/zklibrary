@@ -1,5 +1,5 @@
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
-<window title="Item List" border="normal" apply="br.com.jkuhn.library.controller.BookController" >
+<window title="Item List" border="normal" apply="br.com.jkuhn.library.controller.secure.BookController" >
     <hbox align="center">
         Name :
         <textbox id="itemName" constraint="no empty" />

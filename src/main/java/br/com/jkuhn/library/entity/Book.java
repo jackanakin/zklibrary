@@ -14,11 +14,16 @@ public class Book {
     @Column
     private String name;
 
-    public Book() {
-    }
+    @Column
+    private String remote_code;
 
-    public Book(String name) {
-        this.name = name;
+    @Column
+    private Integer remote_booked;
+
+    @Column
+    private Integer booked_person;
+
+    public Book() {
     }
 
     public Long getId() {
@@ -35,5 +40,29 @@ public class Book {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRemote_code() {
+        return remote_code;
+    }
+
+    public void setRemote_code(String remote_code) {
+        this.remote_code = remote_code;
+    }
+
+    public Integer getRemote_booked() {
+        return remote_booked;
+    }
+
+    public void setRemote_booked(Integer remote_booked) {
+        this.remote_booked = remote_booked;
+    }
+
+    public Integer getBooked_person() {
+        return booked_person;
+    }
+
+    public void setBooked_person(Integer booked_person) {
+        this.booked_person = booked_person;
     }
 }

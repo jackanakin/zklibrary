@@ -9,22 +9,20 @@ create table authorities (
 	authority TEXT not null,
 	constraint fk_authorities_users foreign key(username) references users(username)
 );
-INSERT INTO users VALUES ('jardel', '{bcrypt}$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K', true); --fun123
-INSERT INTO users VALUES ('jack', '{noop}teste123', true);
-INSERT INTO authorities VALUES ('jack', 'USER');
-INSERT INTO authorities VALUES ('jardel', 'USER');
 
 --BUSINESS LOGIC
-CREATE TABLE book (
-  id         	SERIAL PRIMARY KEY,
-  name	            TEXT NOT NULL,
-  author	            TEXT NOT NULL,
-  description	            TEXT NOT NULL
-);
-
-create table people(
+create table person(
 	id         	SERIAL PRIMARY KEY,
 	name TEXT not null,
 	email TEXT not null,
-	constraint fk_people_users foreign key(email) references users(username)
+	constraint fk_person_users foreign key(email) references users(username)
+);
+
+CREATE TABLE book (
+  id         	SERIAL PRIMARY KEY,
+  name	            TEXT NOT NULL,
+  remote_code       TEXT DEFAULT NULL,
+  remote_booked     INT DEFAULT NULL,
+  booked_person         	INT NULL,
+  constraint fk_book_person foreign key(booked_person) references person(id)
 );
