@@ -1,5 +1,5 @@
-<window title="Search" border="normal"
-        apply="br.com.jkuhn.library.controller.HomeController">
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<window title="Search" border="normal" apply="br.com.jkuhn.library.controller.secure.HomeController">
     <hbox align="center">
         Keyword:
         <textbox id="keywordBox" />

@@ -1,11 +1,7 @@
-package br.com.jkuhn.library.controller;
+package br.com.jkuhn.library.controller.secure;
 
 import br.com.jkuhn.library.entity.Book;
-import br.com.jkuhn.library.entity.Car;
 import br.com.jkuhn.library.services.implementations.BookServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;

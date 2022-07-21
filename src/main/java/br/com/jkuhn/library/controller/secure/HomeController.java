@@ -1,18 +1,17 @@
-package br.com.jkuhn.library.controller;
+package br.com.jkuhn.library.controller.secure;
 
+import br.com.jkuhn.library.entity.Book;
 import br.com.jkuhn.library.entity.Car;
-import br.com.jkuhn.library.services.implementacoes.CarServiceImpl;
+import br.com.jkuhn.library.services.implementations.BookServiceImpl;
+import br.com.jkuhn.library.services.implementations.CarServiceImpl;
 import br.com.jkuhn.library.services.interfaces.CarService;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Image;
-import org.zkoss.zul.Label;
-import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Textbox;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.*;
 import org.zkoss.zul.ext.Selectable;
 
 import java.util.List;
@@ -20,6 +19,9 @@ import java.util.Set;
 
 public class HomeController extends SelectorComposer<Component> {
     private static final long serialVersionUID = 1L;
+
+    @WireVariable
+    private BookServiceImpl bookServiceImpl;
 
     @Wire
     private Textbox keywordBox;
@@ -38,6 +40,8 @@ public class HomeController extends SelectorComposer<Component> {
     @Wire
     private Component detailBox;
 
+    @Wire
+    private Textbox name;
 
     private CarService carService = new CarServiceImpl();
 
@@ -46,6 +50,9 @@ public class HomeController extends SelectorComposer<Component> {
         String keyword = keywordBox.getValue();
         List<Car> result = carService.search(keyword);
         carListbox.setModel(new ListModelList<Car>(result));
+
+        List<Book> livros = bookServiceImpl.findAll();
+        System.out.println(livros);
     }
 
     @Listen("onSelect = #carListbox")
