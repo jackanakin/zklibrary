@@ -1,6 +1,6 @@
 <zk xmlns:n="native">
     <n:form action="/login" method="POST">
-        <grid width="450px">
+        <grid>
             <columns>
                 <column width="160px" />
                 <column width="280px" />
@@ -17,11 +17,11 @@
                     <textbox type="password" name="password" value="fun123"/> </row>
                 <row spans="2" align="right">
                     <hlayout>
-                     <button type="submit" label="ENTRAR" />
+                        <button type="submit" label="ENTRAR" />
+                        <button href="signup" type="button" label="CADASTRE-SE" />
                     </hlayout>
                 </row>
             </rows>
         </grid>
     </n:form>
-    <a href="/signup">SIGNUP</a>
 </zk>
