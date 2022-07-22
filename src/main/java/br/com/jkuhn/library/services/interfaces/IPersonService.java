@@ -10,7 +10,7 @@ public interface IPersonService {
 
     public Person findById(int id);
 
-    public void save(Person person);
+    public void save(Person person) throws Exception;
 
     public void deleteById(int id);
 }
