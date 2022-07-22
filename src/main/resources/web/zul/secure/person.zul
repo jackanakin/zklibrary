@@ -1,0 +1,42 @@
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<window id="win" title="Cadastro de pessoas" border="normal" apply="br.com.jkuhn.library.controller.secure.PersonController"
+        viewModel="@id('vm') @init('pkg$.PersonController')">
+    <grid>
+        <rows>
+            <row>
+                Name:
+                <textbox id="nameBox" />
+            </row>
+            <row>
+                E-mail:
+                <textbox id="emailBox" />
+            </row>
+            <row>
+                Senha:
+                <textbox id="passwordBox" />
+            </row>
+            <row>
+                Confirmação da senha:
+                <textbox id="confirmPasswordBox" />
+            </row>
+
+            <row>
+                <button id="submitButton" label="CRIAR" onClick="@command('save')" iconSclass="z-icon-check" />
+            </row>
+        </rows>
+    </grid>
+
+    <listbox id="personListbox" emptyMessage="Nenhuma pessoa encontrada" style="margin-top:10px">
+        <listhead>
+            <listheader label="Nome" />
+            <listheader label="E-mail" />
+        </listhead>
+        <template name="model">
+            <listitem>
+                <listcell label="${each.name}"></listcell>
+                <listcell label="${each.email}"></listcell>
+            </listitem>
+        </template>
+    </listbox>
+
+</window>
