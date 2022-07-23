@@ -12,4 +12,5 @@ public interface IBookService {
 
     public void update(Book previous, Book next) throws Exception;
 
+    public void reserve(Book previous) throws Exception;
 }

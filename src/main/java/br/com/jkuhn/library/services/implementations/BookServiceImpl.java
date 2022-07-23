@@ -40,4 +40,9 @@ public class BookServiceImpl implements IBookService {
         bookDAO.save(previous);
     }
 
+    @Override
+    public void reserve(Book book) throws Exception {
+        bookDAO.save(book);
+    }
+
 }
