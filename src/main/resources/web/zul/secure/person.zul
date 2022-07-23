@@ -16,13 +16,13 @@
                         Senha:
                         <textbox type="password" id="passwordBox" />
                     </row>
-
-                    <row>
-                        <button id="submitButton" label="CRIAR" iconSclass="z-icon-check" />
-                        <button id="resetButton" label="LIMPAR" />
-                    </row>
                 </rows>
             </grid>
+            <div>
+                <button style="margin: 5px; background-color: green;" id="submitButton" label="CRIAR" iconSclass="z-icon-check"  />
+                <button style="margin: 5px; background-color: red;" id="removeButton" label="REMOVER" iconSclass="z-icon-trash" />
+                <button style="margin: 5px" id="resetButton" label="LIMPAR" iconSclass="z-icon-ban" />
+            </div>
         </div>
 
         <listbox id="personListbox" emptyMessage="Nenhuma pessoa encontrada" style="margin-top:10px">
@@ -33,7 +33,7 @@
             <template name="model">
                 <listitem>
                     <listcell label="${each.name}"></listcell>
-                    <listcell label="${each.email}"></listcell>
+                    <listcell label="${each.user.username}"></listcell>
                 </listitem>
             </template>
         </listbox>

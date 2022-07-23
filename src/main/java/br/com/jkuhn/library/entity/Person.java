@@ -11,11 +11,16 @@ public class Person {
 
     @Column
     private String name;
-    @Column
+
+    @Transient
     private String email;
 
     @Transient
     private String password;
+
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     public Person() {
     }
@@ -61,5 +66,13 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

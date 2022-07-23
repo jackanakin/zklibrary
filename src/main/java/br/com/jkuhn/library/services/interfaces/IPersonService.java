@@ -10,7 +10,9 @@ public interface IPersonService {
 
     public Person findById(int id);
 
-    public void save(Person person) throws Exception;
+    public void create(Person person) throws Exception;
 
-    public void deleteById(int id);
+    public void update(Person previous, Person next) throws Exception;
+
+    public void delete(Person person);
 }

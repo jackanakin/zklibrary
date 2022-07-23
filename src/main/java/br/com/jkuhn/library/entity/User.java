@@ -7,6 +7,10 @@ import javax.persistence.*;
 public class User {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column
+    private Long id;
+
     @Column(unique = true)
     private String username;
 
@@ -16,6 +20,9 @@ public class User {
     @Column
     private boolean enabled;
 
+    @OneToOne(mappedBy = "user")
+    private Person person;
+
     public User(String username, String password, boolean enabled) {
         this.username = username;
         this.password = password;
@@ -23,6 +30,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -47,5 +62,13 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

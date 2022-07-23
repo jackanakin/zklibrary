@@ -15,4 +15,9 @@ public class AuthoritieServiceImpl implements IAuthoritieService {
     public void save(Authoritie authoritie) {
         authoritieDAO.save(authoritie);
     }
+
+    @Override
+    public void delete(String username) {
+        authoritieDAO.deleteById(username);
+    }
 }

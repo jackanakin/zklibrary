@@ -4,18 +4,17 @@ import br.com.jkuhn.library.entity.Person;
 import br.com.jkuhn.library.services.implementations.PersonServiceImpl;
 import br.com.jkuhn.library.validator.PersonValidator;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Textbox;
-import org.zkoss.zul.Window;
+import org.zkoss.zul.*;
+import org.zkoss.zul.ext.Selectable;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PersonController extends SelectorComposer<Component> {
     private static final long serialVersionUID = 1L;
@@ -28,8 +27,19 @@ public class PersonController extends SelectorComposer<Component> {
 
     private List<Person> personList;
 
+    private Person selectedPerson = null;
+
     @Wire
     private Window win;
+
+    @Wire
+    private Button submitButton;
+
+    @Wire
+    private Button resetButton;
+
+    @Wire
+    private Button removeButton;
 
     @Wire
     private Listbox personListbox;
@@ -46,15 +56,9 @@ public class PersonController extends SelectorComposer<Component> {
     @Override
     public void doFinally() throws Exception {
         super.doFinally();
-        System.out.println("Do finally: PersonController");
-        //List<Person> books = personServiceImpl.findAll();
-        Person person = new Person("Joao", "@joao");
-        Person person2 = new Person("Joao2", "@joao2");
-        personList = new ArrayList<>();
-        personList.add(person2);personList.add(person);
+        personList = personServiceImpl.findAll();
         personListbox.setModel(new ListModelList<Person>(personList));
-
-        System.out.println(personList);
+        removeButton.setDisabled(true);
     }
 
     @Listen("onClick = #submitButton")
@@ -63,47 +67,88 @@ public class PersonController extends SelectorComposer<Component> {
         String email = emailBox.getValue();
         String password = passwordBox.getValue();
 
-        Person p = new Person(name, email, password);
-        boolean valid = true;
+        Person person = new Person(name, email, password);
+        boolean newPerson = selectedPerson == null;
 
-        String validName = personValidator.validateName(p.getName());
+        boolean inputValidationOk = true;
+
+        String validName = personValidator.validateName(person.getName());
         if (validName != null) {
-            valid = false;
+            inputValidationOk = false;
             showError(validName, nameBox);
         }
 
-        String validEmail = personValidator.validateEmail(p.getEmail());
+        String validEmail = personValidator.validateEmail(person.getEmail());
         if (validEmail != null) {
-            valid = false;
+            inputValidationOk = false;
             showError(validEmail, emailBox);
         }
 
-        String validPassword = personValidator.validatePassword(p.getPassword());
-        if (validPassword != null) {
-            valid = false;
+        String validPassword = personValidator.validatePassword(person.getPassword());
+        if (validPassword != null && !newPerson && person.getPassword().length() > 0) {
+            inputValidationOk = false;
             showError(validPassword, passwordBox);
         }
 
-        // Se validação falhar não continua
-        if (!valid) return;
+        // Se a validação falhar não continua
+        if (!inputValidationOk) return;
 
-        System.out.println("personServiceImpl indo");
-        personServiceImpl.save(p);
-        System.out.println("personServiceImpl voltou");
+        if (newPerson) {
+            personServiceImpl.create(person);
+        } else {
+            personServiceImpl.update(selectedPerson, person);
+        }
 
-
-        personList.add(new Person(p.getName(), p.getEmail()));
+        personList = personServiceImpl.findAll();
         personListbox.setModel(new ListModelList<Person>(personList));
-        showInfo("Pessoa cadastrada", win);
+        showInfo(newPerson ? "Cadastro efetuado" : "Cadastro atualizado", win);
         resetButton();
+    }
+
+    @Listen("onClick = #removeButton")
+    public void removeButton() {
+        EventListener<Messagebox.ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
+            public void onEvent(Messagebox.ClickEvent event) throws Exception {
+                if (Messagebox.Button.YES.equals(event.getButton())) {
+                    personServiceImpl.delete(selectedPerson);
+                    Messagebox.show(String.format("Removido: %s", selectedPerson.getName()));
+                    resetButton();
+                    personList = personServiceImpl.findAll();
+                    personListbox.setModel(new ListModelList<Person>(personList));
+                }
+            }
+        };
+        Messagebox.show(String.format("Confirma a remoção de %s ?", selectedPerson.getName()), "Remover pessoa", new Messagebox.Button[]{
+                Messagebox.Button.YES, Messagebox.Button.NO}, Messagebox.QUESTION, clickListener);
     }
 
     @Listen("onClick = #resetButton")
     public void resetButton() {
-        System.out.println("resetButton");
         nameBox.setValue(null);
         emailBox.setValue(null);
         passwordBox.setValue(null);
+        ((Selectable<Person>) personListbox.getModel()).clearSelection();
+        selectedPerson = null;
+
+        submitButton.setLabel("CRIAR");
+        resetButton.setLabel("LIMPAR");
+        removeButton.setDisabled(true);
+    }
+
+    @Listen("onSelect = #personListbox")
+    public void selectPerson() {
+        Set<Person> selection = ((Selectable<Person>) personListbox.getModel()).getSelection();
+        if (selection != null && !selection.isEmpty()) {
+            Person selected = selection.iterator().next();
+            selectedPerson = selected;
+            nameBox.setValue(selectedPerson.getName());
+            emailBox.setValue(selectedPerson.getUser().getUsername());
+            passwordBox.setValue(null);
+
+            submitButton.setLabel("EDITAR");
+            resetButton.setLabel("CANCELAR");
+            removeButton.setDisabled(false);
+        }
     }
 
     private void showError(String msg, Component ref) {
@@ -111,6 +156,6 @@ public class PersonController extends SelectorComposer<Component> {
     }
 
     private void showInfo(String msg, Component ref) {
-        Clients.showNotification(msg, "info", ref, "end_center", 2000);
+        Clients.showNotification(msg, "info", ref, "end_center", 3000);
     }
 }
