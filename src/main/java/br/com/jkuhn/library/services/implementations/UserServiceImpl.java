@@ -1,7 +1,6 @@
 package br.com.jkuhn.library.services.implementations;
 
 import br.com.jkuhn.library.dao.IUserDAO;
-import br.com.jkuhn.library.entity.User;
 import br.com.jkuhn.library.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,7 +22,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void encodePassword(User user){
-        user.setPassword("{bcrypt}" + new BCryptPasswordEncoder().encode(user.getPassword()));
+    public String encodePassword(String password){
+        return "{bcrypt}" + new BCryptPasswordEncoder().encode(password);
     }
 }

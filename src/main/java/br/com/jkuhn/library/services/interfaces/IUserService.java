@@ -8,5 +8,5 @@ public interface IUserService {
 
     public boolean checkIfUserExist(String email);
 
-    public void encodePassword( User userEntity);
+    public String encodePassword( String password);
 }

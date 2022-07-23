@@ -39,10 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             //.mvcMatchers("/secure").hasRole("USER")
             .anyRequest().authenticated() //enforce all requests to be authenticated
             .and()
-            .formLogin()
-            .loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/secure/book")
+            .formLogin().loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/secure/home").permitAll()
             .and()
-            .logout().logoutUrl("/logout").logoutSuccessUrl("/");
+            .logout().logoutUrl("/logout").logoutSuccessUrl("/").permitAll();
     }
 
     @Override

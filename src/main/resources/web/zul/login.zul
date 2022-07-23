@@ -1,20 +1,16 @@
 <zk xmlns:n="native">
     <n:form action="/login" method="POST">
         <grid>
-            <columns>
-                <column width="160px" />
-                <column width="280px" />
-            </columns>
             <rows>
                 <row spans="2" align="center">
-                    <label value="Bem vindo ao acervo Interact"/>
+                    <label value="Bem vindo a biblioteca Interact"/>
                 </row>
                 <row>
                     <label value="E-mail:"/>
-                    <textbox name="username" value="jardel"/></row>
+                    <textbox name="username" value="sysadmin" /></row>
                 <row>
                     <label value="Senha:"/>
-                    <textbox type="password" name="password" value="fun123"/> </row>
+                    <textbox type="password" name="password" value="fun123" /> </row>
                 <row spans="2" align="right">
                     <hlayout>
                         <button type="submit" label="ENTRAR" />

@@ -36,6 +36,7 @@ public class PersonServiceImpl implements IPersonService {
     @Override
     public void update(Person previous, Person next) throws Exception {
         boolean newEmail = !next.getEmail().equals(previous.getUser().getUsername());
+        boolean newPassword = next.getPassword().length() > 0;
 
         // SE MUDOU O E-MAIL
         if (newEmail) {
@@ -53,9 +54,9 @@ public class PersonServiceImpl implements IPersonService {
         }
 
         // SE MUDOU A SENHA, BCRYPT NA NOVA
-        if (next.getPassword().length() > 0){
-            previous.setPassword(next.getPassword());
-            userService.encodePassword(previous.getUser());
+        if (newPassword){
+            String encodedPassword = userService.encodePassword(next.getPassword());
+            previous.getUser().setPassword(encodedPassword);
         }
 
         previous.setName(next.getName());
@@ -75,7 +76,7 @@ public class PersonServiceImpl implements IPersonService {
             throw new Exception("Este e-mail já está em uso");
         }
 
-        userService.encodePassword(user);
+        user.setPassword(userService.encodePassword(user.getPassword()));
         User persistedUser = userDAO.save(user);
 
         authoritieDAO.save(new Authoritie(user.getUsername(), UserRoles.USER));
