@@ -1,0 +1,42 @@
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk xmlns:n="native">
+    <?link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"?>
+
+    <?page title="Biblioteca Interact"?>
+
+    <n:nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <n:a class="navbar-brand" href="">Biblioteca Interact</n:a>
+        <n:button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <n:span class="navbar-toggler-icon"></n:span>
+        </n:button>
+        <n:div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <n:ul class="navbar-nav">
+                <n:li class="nav-item">
+                    <n:a class="nav-link active" href="home">Acervo</n:a>
+                </n:li>
+                <n:li class="nav-item">
+                    <n:a class="nav-link active" href="book">Livros</n:a>
+                </n:li>
+                <n:li class="nav-item">
+                    <n:a class="nav-link active" href="person">Pessoas</n:a>
+                </n:li>
+                <n:li class="nav-item">
+                    <n:a class="nav-link active" href="myinventory">Minhas reservas</n:a>
+                </n:li>
+            </n:ul>
+        </n:div>
+    </n:nav>
+
+    <window id="win" title="Minhas reservas" border="normal" apply="br.com.jkuhn.library.controller.secure.MyInventoryController">
+        <listbox id="bookListbox" emptyMessage="Você não retirou nenhum livro" style="margin-top:10px" >
+            <listhead>
+                <listheader label="Nome" />
+            </listhead>
+            <template name="model">
+                <listitem>
+                    <listcell label="${each.name}"></listcell>
+                </listitem>
+            </template>
+        </listbox>
+    </window>
+</zk>

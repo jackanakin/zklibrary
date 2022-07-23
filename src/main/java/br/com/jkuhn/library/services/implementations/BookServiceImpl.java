@@ -23,6 +23,12 @@ public class BookServiceImpl implements IBookService {
     private IPersonDAO personDAO;
 
     @Override
+    public List<Book> findAllReservedByUsername(String username) {
+        Person person = personDAO.findByUserUsername(username);
+        return bookDAO.findAllByPersonId(person.getId());
+    }
+
+    @Override
     public List<Book> findAll() {
         return bookDAO.findAll();
     }
@@ -50,13 +56,19 @@ public class BookServiceImpl implements IBookService {
     }
 
     @Override
-    public void reserve(Book book, String username) throws Exception {
+    public void reserveBook(Book book, String username) throws Exception {
         Person person = personDAO.findByUserUsername(username);
         book.setPerson(person);
 
         Book bookReserved = bookDAO.findById(book.getId()).orElseThrow(() -> new Exception("Livro não encontrado, verifique se não foi removido do acervo"));
         if (bookReserved.getPerson() != null) throw new Exception("Este livro acabou de ser reservado por outra pessoa");
 
+        bookDAO.save(book);
+    }
+
+    @Override
+    public void returnBook(Book book) {
+        book.setPerson(null);
         bookDAO.save(book);
     }
 

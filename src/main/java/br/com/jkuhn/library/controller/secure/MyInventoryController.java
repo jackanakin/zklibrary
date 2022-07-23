@@ -17,7 +17,7 @@ import org.zkoss.zul.ext.Selectable;
 import java.util.List;
 import java.util.Set;
 
-public class HomeController extends SelectorComposer<Component> {
+public class MyInventoryController extends SelectorComposer<Component> {
     private static final long serialVersionUID = 1L;
 
     @WireVariable
@@ -50,7 +50,10 @@ public class HomeController extends SelectorComposer<Component> {
     }
 
     public void loadBookList(){
-        bookList = bookServiceImpl.findAll();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+
+        bookList = bookServiceImpl.findAllReservedByUsername(username);
         bookListbox.setModel(new ListModelList<Book>(bookList));
     }
 
@@ -64,35 +67,30 @@ public class HomeController extends SelectorComposer<Component> {
         Set<Book> selection = ((Selectable<Book>) bookListbox.getModel()).getSelection();
         if (selection != null && !selection.isEmpty()) {
             Book selected = selection.iterator().next();
-            if (selected.getPerson() != null){
-                ((Selectable<Book>) bookListbox.getModel()).clearSelection();
-                String msg = String.format("O livro '%s' já foi retirado", selected.getName());
-                showWarning(msg, bookListbox);
-            } else {
-                selectedBook = selected;
-                reserveBook();
-            }
+
+            selectedBook = selected;
+            returnBook();
         }
     }
 
-    public void reserveBook() {
+    public void returnBook() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
 
         EventListener<Messagebox.ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
             public void onEvent(Messagebox.ClickEvent event) throws Exception {
                 if (Messagebox.Button.YES.equals(event.getButton())) {
-                    bookServiceImpl.reserveBook(selectedBook, username);
+                    bookServiceImpl.returnBook(selectedBook);
 
-                    Messagebox.show(String.format("Livro %s retirado", selectedBook.getName()));
+                    Messagebox.show(String.format("Livro %s devolvido", selectedBook.getName()));
                     resetSelection();
-                    bookList = bookServiceImpl.findAll();
+                    bookList = bookServiceImpl.findAllReservedByUsername(username);
                     bookListbox.setModel(new ListModelList<Book>(bookList));
                 }
             }
         };
 
-        Messagebox.show(String.format("Deseja retirar o livro ? \nNome: %s", selectedBook.getName()), "Retirar livro", new Messagebox.Button[]{
+        Messagebox.show(String.format("Deseja devolver o livro ? \nNome: %s", selectedBook.getName()), "Devolver livro", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO}, Messagebox.QUESTION, clickListener);
     }
 
