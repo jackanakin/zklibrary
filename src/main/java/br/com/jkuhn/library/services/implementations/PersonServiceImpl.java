@@ -34,11 +34,6 @@ public class PersonServiceImpl implements IPersonService {
     }
 
     @Override
-    public Person findById(int id) {
-        return null;
-    }
-
-    @Override
     public void update(Person previous, Person next) throws Exception {
         boolean newEmail = !next.getEmail().equals(previous.getUser().getUsername());
 

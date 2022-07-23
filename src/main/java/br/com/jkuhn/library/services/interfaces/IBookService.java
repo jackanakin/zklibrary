@@ -8,9 +8,8 @@ import java.util.List;
 public interface IBookService {
     public List<Book> findAll();
 
-    public Book findById(int id);
+    public void create(Book book) throws Exception;
 
-    public void save(Book books);
+    public void update(Book previous, Book next) throws Exception;
 
-    public void deleteById(int id);
 }

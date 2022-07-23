@@ -13,16 +13,6 @@ public class UserServiceImpl implements IUserService {
     private IUserDAO userDAO;
 
     @Override
-    public void update(User user) throws Exception {
-        return;
-    }
-
-    @Override
-    public void save(User user) throws Exception {
-        return;
-    }
-
-    @Override
     public void delete(String username) {
         userDAO.deleteById(username);
     }

@@ -21,9 +21,13 @@ public class Book {
     private Integer remote_booked;
 
     @Column
-    private Integer booked_person;
+    private Integer booked_person_id;
 
     public Book() {
+    }
+
+    public Book(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -58,11 +62,11 @@ public class Book {
         this.remote_booked = remote_booked;
     }
 
-    public Integer getBooked_person() {
-        return booked_person;
+    public Integer getBooked_person_id() {
+        return booked_person_id;
     }
 
-    public void setBooked_person(Integer booked_person) {
-        this.booked_person = booked_person;
+    public void setBooked_person_id(Integer booked_person_id) {
+        this.booked_person_id = booked_person_id;
     }
 }
