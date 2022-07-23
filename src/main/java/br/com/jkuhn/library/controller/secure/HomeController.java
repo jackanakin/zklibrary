@@ -1,10 +1,9 @@
 package br.com.jkuhn.library.controller.secure;
 
 import br.com.jkuhn.library.entity.Book;
-import br.com.jkuhn.library.entity.Person;
 import br.com.jkuhn.library.services.implementations.BookServiceImpl;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
@@ -55,12 +54,6 @@ public class HomeController extends SelectorComposer<Component> {
         bookListbox.setModel(new ListModelList<Book>(bookList));
     }
 
-    @Listen("onClick = #submitButton")
-    public void submitButton() throws Exception {
-        //loadBookList();
-        showInfo("Reserva", win);
-    }
-
     @Listen("onClick = #resetButton")
     public void resetButton() {
         ((Selectable<Book>) bookListbox.getModel()).clearSelection();
@@ -72,34 +65,40 @@ public class HomeController extends SelectorComposer<Component> {
         Set<Book> selection = ((Selectable<Book>) bookListbox.getModel()).getSelection();
         if (selection != null && !selection.isEmpty()) {
             Book selected = selection.iterator().next();
-            selectedBook = selected;
-            reserveBook();
+            if (selected.getPerson() != null){
+                ((Selectable<Book>) bookListbox.getModel()).clearSelection();
+                String msg = String.format("O livro '%s' já foi retirar", selected.getName());
+                showWarning(msg, bookListbox);
+            } else {
+                selectedBook = selected;
+                reserveBook();
+            }
         }
     }
 
     public void reserveBook() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        System.out.println(authentication);
-        System.out.println(authentication.getName());
-        System.out.println(authentication.getAuthorities());
-        System.out.println(authentication.getDetails());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
 
         EventListener<Messagebox.ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
             public void onEvent(Messagebox.ClickEvent event) throws Exception {
                 if (Messagebox.Button.YES.equals(event.getButton())) {
-                    //personServiceImpl.delete(selectedPerson);
-
+                    bookServiceImpl.reserve(selectedBook, username);
 
                     Messagebox.show(String.format("Livro %s retirado", selectedBook.getName()));
                     resetButton();
-                    //personList = personServiceImpl.findAll();
-                    //personListbox.setModel(new ListModelList<Person>(personList));
+                    bookList = bookServiceImpl.findAll();
+                    bookListbox.setModel(new ListModelList<Book>(bookList));
                 }
             }
         };
-        Messagebox.show(String.format("Quer retirar o livro ?\n% \nNome: %s", selectedBook.getName()), "Retirar livro", new Messagebox.Button[]{
+
+        Messagebox.show(String.format("Quer retirar o livro ? \nNome: %s", selectedBook.getName()), "Retirar livro", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO}, Messagebox.QUESTION, clickListener);
+    }
+
+    private void showWarning(String msg, Component ref) {
+        Clients.showNotification(msg, "warning", ref, "middle_center", 2000);
     }
 
     private void showError(String msg, Component ref) {

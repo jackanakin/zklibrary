@@ -28,13 +28,22 @@
     </n:nav>
 
     <window id="win" title="Retirar livro" border="normal" apply="br.com.jkuhn.library.controller.secure.HomeController">
-        <listbox id="bookListbox" emptyMessage="Nenhum livro encontrado" style="margin-top:10px">
+        <listbox id="bookListbox" emptyMessage="Nenhum livro encontrado" style="margin-top:10px" >
             <listhead>
                 <listheader label="Nome" />
+                <listheader label="Status" width="20%" />
             </listhead>
             <template name="model">
                 <listitem>
                     <listcell label="${each.name}"></listcell>
+                    <zk choose="">
+                        <zk when="${each.person.id != null}">
+                            <listcell label="Reservado"></listcell>
+                        </zk>
+                        <zk>
+                            <listcell label="Disponível"></listcell>
+                        </zk>
+                    </zk>
                 </listitem>
             </template>
         </listbox>

@@ -20,8 +20,9 @@ public class Book {
     @Column
     private Integer remote_booked;
 
-    @Column
-    private Integer booked_person_id;
+    @ManyToOne
+    @JoinColumn(name="booked_person_id")
+    private Person person;
 
     public Book() {
     }
@@ -62,11 +63,11 @@ public class Book {
         this.remote_booked = remote_booked;
     }
 
-    public Integer getBooked_person_id() {
-        return booked_person_id;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setBooked_person_id(Integer booked_person_id) {
-        this.booked_person_id = booked_person_id;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }
