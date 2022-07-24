@@ -1,11 +1,13 @@
 --SPRING SECURITY
 create table users(
-	username TEXT not null primary key,
+    id         	SERIAL PRIMARY KEY,
+	username TEXT not null unique,
 	password TEXT not null,
 	enabled boolean not null
 );
 create table authorities (
-	username TEXT not null,
+	id         	SERIAL PRIMARY KEY,
+	username TEXT not null unique,
 	authority TEXT not null,
 	constraint fk_authorities_users foreign key(username) references users(username)
 );
@@ -14,15 +16,15 @@ create table authorities (
 create table person(
 	id         	SERIAL PRIMARY KEY,
 	name TEXT not null,
-	email TEXT not null,
-	constraint fk_person_users foreign key(email) references users(username)
+	user_id INT not null,
+	constraint fk_person_users foreign key(user_id) references users(id)
 );
 
 CREATE TABLE book (
   id         	SERIAL PRIMARY KEY,
   name	            TEXT NOT NULL,
-  remote_code       TEXT DEFAULT NULL,
-  remote_booked     INT DEFAULT NULL,
-  booked_person         	INT NULL,
-  constraint fk_book_person foreign key(booked_person) references person(id)
+  code       TEXT DEFAULT NULL,
+  booked     INT DEFAULT NOT NULL,
+  booked_person_id         	INT NULL,
+  constraint fk_book_person foreign key(booked_person_id) references person(id)
 );

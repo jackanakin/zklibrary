@@ -2,6 +2,7 @@ package br.com.jkuhn.library.controller.secure;
 
 import br.com.jkuhn.library.entity.Book;
 import br.com.jkuhn.library.services.implementations.BookServiceImpl;
+import br.com.jkuhn.library.services.implementations.RestConsumerImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
@@ -14,6 +15,7 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.*;
 import org.zkoss.zul.ext.Selectable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +24,9 @@ public class HomeController extends SelectorComposer<Component> {
 
     @WireVariable
     private BookServiceImpl bookServiceImpl;
+
+    @WireVariable
+    private RestConsumerImpl restConsumerImpl;
 
     private List<Book> bookList;
 
@@ -51,6 +56,13 @@ public class HomeController extends SelectorComposer<Component> {
 
     public void loadBookList(){
         bookList = bookServiceImpl.findAll();
+
+        try{
+            bookList.addAll(restConsumerImpl.get());
+        } catch (Exception e){
+            Clients.showNotification("Biblioteca remota indisponível no momento!", "warning", bookListbox, "middle_center", 8000);
+        }
+
         bookListbox.setModel(new ListModelList<Book>(bookList));
     }
 
@@ -64,10 +76,10 @@ public class HomeController extends SelectorComposer<Component> {
         Set<Book> selection = ((Selectable<Book>) bookListbox.getModel()).getSelection();
         if (selection != null && !selection.isEmpty()) {
             Book selected = selection.iterator().next();
-            if (selected.getPerson() != null){
+            if (selected.getBooked() == 1){
                 ((Selectable<Book>) bookListbox.getModel()).clearSelection();
                 String msg = String.format("O livro '%s' já foi retirado", selected.getName());
-                showWarning(msg, bookListbox);
+                Clients.showNotification(msg, "warning", bookListbox, "middle_center", 2000);
             } else {
                 selectedBook = selected;
                 reserveBook();
@@ -82,22 +94,25 @@ public class HomeController extends SelectorComposer<Component> {
         EventListener<Messagebox.ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
             public void onEvent(Messagebox.ClickEvent event) throws Exception {
                 if (Messagebox.Button.YES.equals(event.getButton())) {
-                    bookServiceImpl.reserveBook(selectedBook, username);
+                    selectedBook.setBooked(1);
+
+                    if (selectedBook.getCode() == null){
+                        // LOCAL BOOK FROM DATABASE
+                        bookServiceImpl.reserveBook(selectedBook, username);
+                    }else{
+                        // REMOTE BOOK FROM API
+                        //restConsumerImpl.put(selectedBook.getCode(), 1);
+                    }
 
                     Messagebox.show(String.format("Livro %s retirado", selectedBook.getName()));
                     resetSelection();
-                    bookList = bookServiceImpl.findAll();
-                    bookListbox.setModel(new ListModelList<Book>(bookList));
+                    loadBookList();
                 }
             }
         };
 
         Messagebox.show(String.format("Deseja retirar o livro ? \nNome: %s", selectedBook.getName()), "Retirar livro", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO}, Messagebox.QUESTION, clickListener);
-    }
-
-    private void showWarning(String msg, Component ref) {
-        Clients.showNotification(msg, "warning", ref, "middle_center", 2000);
     }
 
     private void showError(String msg, Component ref) {

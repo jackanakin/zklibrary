@@ -1,5 +1,7 @@
 package br.com.jkuhn.library.entity;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,16 +17,22 @@ public class Book {
     private String name;
 
     @Column
-    private String remote_code;
+    private String code;
 
     @Column
-    private Integer remote_booked;
+    private Integer booked = 0; //0=Available / 1=Reserved
 
     @ManyToOne
     @JoinColumn(name="booked_person_id")
     private Person person;
 
     public Book() {
+    }
+
+    public Book(String name, String code, Integer booked) {
+        this.name = name;
+        this.code = code;
+        this.booked = booked;
     }
 
     public Book(String name) {
@@ -47,20 +55,20 @@ public class Book {
         this.name = name;
     }
 
-    public String getRemote_code() {
-        return remote_code;
+    public String getCode() {
+        return code;
     }
 
-    public void setRemote_code(String remote_code) {
-        this.remote_code = remote_code;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public Integer getRemote_booked() {
-        return remote_booked;
+    public Integer getBooked() {
+        return booked;
     }
 
-    public void setRemote_booked(Integer remote_booked) {
-        this.remote_booked = remote_booked;
+    public void setBooked(Integer booked) {
+        this.booked = booked;
     }
 
     public Person getPerson() {
