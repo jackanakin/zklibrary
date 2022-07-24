@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface IBookService {
 
+    public Book getLocalBook(Long id);
+
     public List<Book> getAllLocalBooks();
 
     public List<Book> getAllReservedByUsername(String username);

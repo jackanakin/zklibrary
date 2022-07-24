@@ -32,6 +32,11 @@ public class BookServiceImpl implements IBookService {
     }
 
     @Override
+    public Book getLocalBook(Long id) {
+        return bookDAO.findById(id).orElse(null);
+    }
+
+    @Override
     public List<Book> getAllLocalBooks() {
         return bookDAO.findAllByCodeIsNull();
     }
