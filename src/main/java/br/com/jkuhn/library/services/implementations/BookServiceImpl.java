@@ -26,7 +26,7 @@ public class BookServiceImpl implements IBookService {
     private RestConsumerServiceImpl restConsumerServiceImpl;
 
     @Override
-    public List<Book> findAllReservedByUsername(String username) {
+    public List<Book> getAllReservedByUsername(String username) {
         Person person = personDAO.findByUserUsername(username);
         return bookDAO.findAllByPersonId(person.getId());
     }
@@ -76,9 +76,24 @@ public class BookServiceImpl implements IBookService {
     }
 
     @Override
-    public void returnBook(Book book) {
+    public void returnBook(Book book) throws Exception {
         book.setPerson(null);
-        bookDAO.save(book);
+
+        if (book.getCode() != null){
+            //SE FOR LIVRO DA API
+            boolean success = false;
+            try{
+                success = restConsumerServiceImpl.put(book.getCode(), 0);
+                bookDAO.delete(book);
+            } catch (Exception e){
+                throw new Exception("Biblioteca remota indisponível no momento! Tente novamente mais tarde");
+            }
+
+            if (success) bookDAO.delete(book);
+        } else {
+            //SE FOR LIVRO LOCAL
+            bookDAO.save(book);
+        }
     }
 
 }

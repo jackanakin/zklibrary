@@ -53,7 +53,7 @@ public class MyInventoryController extends SelectorComposer<Component> {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
 
-        bookList = bookServiceImpl.findAllReservedByUsername(username);
+        bookList = bookServiceImpl.getAllReservedByUsername(username);
         bookListbox.setModel(new ListModelList<Book>(bookList));
     }
 
@@ -81,12 +81,12 @@ public class MyInventoryController extends SelectorComposer<Component> {
             public void onEvent(Messagebox.ClickEvent event) throws Exception {
                 if (Messagebox.Button.YES.equals(event.getButton())) {
                     selectedBook.setBooked(0);
+
                     bookServiceImpl.returnBook(selectedBook);
 
                     Messagebox.show(String.format("Livro %s devolvido", selectedBook.getName()));
                     resetSelection();
-                    bookList = bookServiceImpl.findAllReservedByUsername(username);
-                    bookListbox.setModel(new ListModelList<Book>(bookList));
+                    loadBookList();
                 }
             }
         };

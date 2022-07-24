@@ -9,7 +9,7 @@ public interface IBookService {
 
     public List<Book> getAllLocalBooks();
 
-    public List<Book> findAllReservedByUsername(String username);
+    public List<Book> getAllReservedByUsername(String username);
 
     public void create(Book book) throws Exception;
 
@@ -17,6 +17,6 @@ public interface IBookService {
 
     public void reserveBook(Book book,  String username) throws Exception;
 
-    public void returnBook(Book book);
+    public void returnBook(Book book) throws Exception;
 
 }

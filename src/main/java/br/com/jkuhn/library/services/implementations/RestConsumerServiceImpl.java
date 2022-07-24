@@ -24,21 +24,11 @@ public class RestConsumerServiceImpl implements IRestConsumerService {
      * @param code object code in remote api
      * @param booked 1 = booked 0 = available
      */
-    public void put(String code, int booked) {
-        // booked 1 - reserve
-        // booked 0 - return
+    public boolean put(String code, int booked) throws Exception {
         final String uri = applicationProperties.getRemoteApi() + "/" + code + "/" + booked;
         RestTemplate restTemplate = new RestTemplate();
-        //if (true) throw new Exception("parou");
-
-        ResponseEntity<Book> response = restTemplate.exchange(
-                uri,
-                HttpMethod.PUT,
-                null,
-                Book.class);
-
-        Book result = response.getBody();
-        System.out.println(result);
+        restTemplate.exchange(uri, HttpMethod.PUT, null, Book.class);
+        return true;
     }
 
     public List<Book> get() throws Exception {

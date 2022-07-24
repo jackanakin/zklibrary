@@ -8,6 +8,6 @@ public interface IRestConsumerService {
 
     public List<Book> get() throws Exception;
 
-    public void put(String code, int booked) throws Exception;
+    public boolean put(String code, int booked) throws Exception;
 
 }

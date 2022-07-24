@@ -60,8 +60,7 @@ public class HomeController extends SelectorComposer<Component> {
             List<Book> apiBookList = restConsumerServiceImpl.get();
             bookList.addAll(apiBookList);
         } catch (Exception e){
-            e.printStackTrace();
-            Clients.showNotification("Biblioteca remota indisponível no momento!", "warning", bookListbox, "middle_center", 8000);
+            Messagebox.show("Biblioteca remota indisponível no momento!");
         }
 
         bookListbox.setModel(new ListModelList<Book>(bookList));
