@@ -1,0 +1,36 @@
+@import "main.css";
+
+.sign-form {
+    background-color: white;
+    padding: 5%;
+    border-radius: 2%;
+    width: 50vw;
+    margin-left: 20vw;
+    margin-top: 10vh;
+}
+
+.logo-form {
+    width: 7%;
+    height: 7%;
+}
+
+.error-label {
+    color: red;
+    margin: 5%;
+}
+
+.sign-button {
+    margin-top: 5%;
+}
+
+.background-window {
+    background-image: url('/zkres/web/img/login_background.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    -moz-background-size: cover; -o-background-size: cover; -webkit-background-size: cover;
+    height: 100%
+}
+
+.background-window-content {
+    background-color: transparent;
+}
