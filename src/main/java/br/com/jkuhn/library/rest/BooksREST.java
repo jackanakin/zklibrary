@@ -17,7 +17,7 @@ public class BooksREST {
 
     @GetMapping("/")
     public List<Book> getBooks() {
-        return bookServiceImpl.findAll();
+        return bookServiceImpl.getAllLocalBooks();
     }
 
 }

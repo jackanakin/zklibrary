@@ -22,6 +22,9 @@ public class BookServiceImpl implements IBookService {
     @Autowired
     private IPersonDAO personDAO;
 
+    @Autowired
+    private RestConsumerServiceImpl restConsumerServiceImpl;
+
     @Override
     public List<Book> findAllReservedByUsername(String username) {
         Person person = personDAO.findByUserUsername(username);
@@ -29,8 +32,8 @@ public class BookServiceImpl implements IBookService {
     }
 
     @Override
-    public List<Book> findAll() {
-        return bookDAO.findAll();
+    public List<Book> getAllLocalBooks() {
+        return bookDAO.findAllByCodeIsNull();
     }
 
     @Override
@@ -57,11 +60,17 @@ public class BookServiceImpl implements IBookService {
 
     @Override
     public void reserveBook(Book book, String username) throws Exception {
+        if (book.getCode() != null){
+            //SE FOR LIVRO DA API
+            restConsumerServiceImpl.put(book.getCode(), 1);
+        } else {
+            //SE FOR LIVRO LOCAL
+            Book bookReserved = bookDAO.findById(book.getId()).orElseThrow(() -> new Exception("Livro não encontrado, verifique se não foi removido do acervo"));
+            if (bookReserved.getPerson() != null) throw new Exception("Este livro acabou de ser reservado por outra pessoa");
+        }
+
         Person person = personDAO.findByUserUsername(username);
         book.setPerson(person);
-
-        Book bookReserved = bookDAO.findById(book.getId()).orElseThrow(() -> new Exception("Livro não encontrado, verifique se não foi removido do acervo"));
-        if (bookReserved.getPerson() != null) throw new Exception("Este livro acabou de ser reservado por outra pessoa");
 
         bookDAO.save(book);
     }

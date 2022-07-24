@@ -6,7 +6,8 @@ import br.com.jkuhn.library.entity.Book;
 import java.util.List;
 
 public interface IBookService {
-    public List<Book> findAll();
+
+    public List<Book> getAllLocalBooks();
 
     public List<Book> findAllReservedByUsername(String username);
 

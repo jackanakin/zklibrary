@@ -2,10 +2,9 @@ package br.com.jkuhn.library.services.implementations;
 
 import br.com.jkuhn.library.configuration.ApplicationProperties;
 import br.com.jkuhn.library.entity.Book;
-import br.com.jkuhn.library.services.interfaces.IRestService;
+import br.com.jkuhn.library.services.interfaces.IRestConsumerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,10 +14,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RestConsumerImpl implements IRestService {
+public class RestConsumerServiceImpl implements IRestConsumerService {
 
     @Autowired
     private ApplicationProperties applicationProperties;
+
+    /***
+     *
+     * @param code object code in remote api
+     * @param booked 1 = booked 0 = available
+     */
+    public void put(String code, int booked) {
+        // booked 1 - reserve
+        // booked 0 - return
+        final String uri = applicationProperties.getRemoteApi() + "/" + code + "/" + booked;
+        RestTemplate restTemplate = new RestTemplate();
+        //if (true) throw new Exception("parou");
+
+        ResponseEntity<Book> response = restTemplate.exchange(
+                uri,
+                HttpMethod.PUT,
+                null,
+                Book.class);
+
+        Book result = response.getBody();
+        System.out.println(result);
+    }
 
     public List<Book> get() throws Exception {
         final String uri = applicationProperties.getRemoteApi();

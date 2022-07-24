@@ -8,5 +8,7 @@ import java.util.List;
 public interface IBookDAO extends JpaRepository<Book, Long> {
     public Book findByName(String name);
 
+    public List<Book> findAllByCodeIsNull();
+
     public List<Book> findAllByPersonId(Long personId);
 }

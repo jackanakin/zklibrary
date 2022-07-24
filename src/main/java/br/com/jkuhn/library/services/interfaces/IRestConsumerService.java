@@ -4,10 +4,10 @@ import br.com.jkuhn.library.entity.Book;
 
 import java.util.List;
 
-public interface IRestService {
+public interface IRestConsumerService {
 
     public List<Book> get() throws Exception;
 
-    //public boolean put(String code, int booked) throws Exception;
+    public void put(String code, int booked) throws Exception;
 
 }

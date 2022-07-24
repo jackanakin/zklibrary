@@ -55,7 +55,7 @@ public class BookController extends SelectorComposer<Component> {
     }
 
     public void loadBookList(){
-        bookList = bookServiceImpl.findAll();
+        bookList = bookServiceImpl.getAllLocalBooks();
         bookListbox.setModel(new ListModelList<Book>(bookList));
     }
 

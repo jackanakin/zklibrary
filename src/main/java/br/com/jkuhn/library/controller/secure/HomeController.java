@@ -2,7 +2,7 @@ package br.com.jkuhn.library.controller.secure;
 
 import br.com.jkuhn.library.entity.Book;
 import br.com.jkuhn.library.services.implementations.BookServiceImpl;
-import br.com.jkuhn.library.services.implementations.RestConsumerImpl;
+import br.com.jkuhn.library.services.implementations.RestConsumerServiceImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.zkoss.zk.ui.Component;
@@ -15,7 +15,6 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.*;
 import org.zkoss.zul.ext.Selectable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ public class HomeController extends SelectorComposer<Component> {
     private BookServiceImpl bookServiceImpl;
 
     @WireVariable
-    private RestConsumerImpl restConsumerImpl;
+    private RestConsumerServiceImpl restConsumerServiceImpl;
 
     private List<Book> bookList;
 
@@ -55,11 +54,13 @@ public class HomeController extends SelectorComposer<Component> {
     }
 
     public void loadBookList(){
-        bookList = bookServiceImpl.findAll();
+        bookList = bookServiceImpl.getAllLocalBooks();
 
         try{
-            bookList.addAll(restConsumerImpl.get());
+            List<Book> apiBookList = restConsumerServiceImpl.get();
+            bookList.addAll(apiBookList);
         } catch (Exception e){
+            e.printStackTrace();
             Clients.showNotification("Biblioteca remota indisponível no momento!", "warning", bookListbox, "middle_center", 8000);
         }
 
@@ -96,13 +97,7 @@ public class HomeController extends SelectorComposer<Component> {
                 if (Messagebox.Button.YES.equals(event.getButton())) {
                     selectedBook.setBooked(1);
 
-                    if (selectedBook.getCode() == null){
-                        // LOCAL BOOK FROM DATABASE
-                        bookServiceImpl.reserveBook(selectedBook, username);
-                    }else{
-                        // REMOTE BOOK FROM API
-                        //restConsumerImpl.put(selectedBook.getCode(), 1);
-                    }
+                    bookServiceImpl.reserveBook(selectedBook, username);
 
                     Messagebox.show(String.format("Livro %s retirado", selectedBook.getName()));
                     resetSelection();
