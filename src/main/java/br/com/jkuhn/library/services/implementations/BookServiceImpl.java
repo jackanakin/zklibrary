@@ -96,4 +96,9 @@ public class BookServiceImpl implements IBookService {
         }
     }
 
+    @Override
+    public void removeBook(Book book) {
+        bookDAO.delete(book);
+    }
+
 }

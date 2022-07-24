@@ -4,6 +4,7 @@ import br.com.jkuhn.library.entity.Book;
 import br.com.jkuhn.library.services.implementations.BookServiceImpl;
 import br.com.jkuhn.library.validator.BookValidator;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -110,6 +111,30 @@ public class BookController extends SelectorComposer<Component> {
             submitButton.setLabel("EDITAR");
             resetButton.setLabel("CANCELAR");
             removeButton.setDisabled(false);
+        }
+    }
+
+    @Listen("onClick = #removeButton")
+    public void removeButton() {
+        EventListener<Messagebox.ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
+            public void onEvent(Messagebox.ClickEvent event) throws Exception {
+                if (Messagebox.Button.YES.equals(event.getButton())) {
+                    bookServiceImpl.removeBook(selectedBook);
+                    Messagebox.show(String.format("Livro '%s' removido", selectedBook.getName()));
+
+                    resetButton();
+                    loadBookList();
+                }
+            }
+        };
+
+        if (selectedBook.getPerson() == null) {
+            Messagebox.show(String.format("Confirma a remoção do livro '%s' ?", selectedBook.getName()), "Remover livro", new Messagebox.Button[]{
+                    Messagebox.Button.YES, Messagebox.Button.NO}, Messagebox.QUESTION, clickListener);
+        } else {
+            String msg = String.format("O livro '%s' está reservado para ", selectedBook.getName()) + selectedBook.getPerson().getName() + ", deseja remover mesmo assim ?";
+            Messagebox.show(msg, "Remover livro", new Messagebox.Button[]{
+                    Messagebox.Button.YES, Messagebox.Button.NO}, Messagebox.QUESTION, clickListener);
         }
     }
 

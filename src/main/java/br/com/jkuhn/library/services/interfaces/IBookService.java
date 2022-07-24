@@ -19,4 +19,6 @@ public interface IBookService {
 
     public void returnBook(Book book) throws Exception;
 
+    public void removeBook(Book book);
+
 }
