@@ -1,14 +1,9 @@
 package br.com.jkuhn.library.controller.unsecure;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.select.SelectorComposer;
 
-@Controller
-public class SignupController {
 
-    @GetMapping("/signup")
-    public String login() {
-        return "signup";
-    }
-
+public class SignupController extends SelectorComposer<Component> {
+    private static final long serialVersionUID = 1L;
 }
