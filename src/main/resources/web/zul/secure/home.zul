@@ -1,7 +1,8 @@
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk xmlns:n="native">
-    <?link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"?>
+    <?link rel="stylesheet" type="text/css" href="zkres/web/css/bootstrap.min.css"?>
     <?link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"?>
+    <?link rel="stylesheet" type="text/css" href="zkres/web/css/main.css"?>
     <?link rel="icon" type="image/x-icon" href="zkres/web/img/favicon.png"?>
     <?page title="Biblioteca Interact"?>
 
@@ -31,7 +32,7 @@
         </n:form>
     </n:nav>
 
-    <window id="win" title="Retirar livro" border="normal" apply="br.com.jkuhn.library.controller.secure.HomeController">
+    <window id="win" title="Retirar livro" apply="br.com.jkuhn.library.controller.secure.HomeController">
         <listbox id="bookListbox" emptyMessage="Nenhum livro encontrado" style="margin-top:10px" >
             <listhead>
                 <listheader label="Local" width="5%" />
