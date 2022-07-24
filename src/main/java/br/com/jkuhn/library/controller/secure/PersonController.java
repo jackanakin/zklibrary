@@ -1,6 +1,8 @@
 package br.com.jkuhn.library.controller.secure;
 
+import br.com.jkuhn.library.entity.Book;
 import br.com.jkuhn.library.entity.Person;
+import br.com.jkuhn.library.services.implementations.BookServiceImpl;
 import br.com.jkuhn.library.services.implementations.PersonServiceImpl;
 import br.com.jkuhn.library.validator.PersonValidator;
 import org.zkoss.zk.ui.Component;
@@ -21,6 +23,9 @@ public class PersonController extends SelectorComposer<Component> {
 
     @WireVariable
     private PersonServiceImpl personServiceImpl;
+
+    @WireVariable
+    private BookServiceImpl bookServiceImpl;
 
     @WireVariable
     private PersonValidator personValidator;
@@ -85,7 +90,7 @@ public class PersonController extends SelectorComposer<Component> {
         }
 
         String validPassword = personValidator.validatePassword(person.getPassword());
-        if (validPassword != null && !newPerson && person.getPassword().length() > 0) {
+        if ((!newPerson && person.getPassword().length() > 0 && validPassword != null) || (newPerson && validPassword != null)) {
             inputValidationOk = false;
             showError(validPassword, passwordBox);
         }
@@ -107,6 +112,8 @@ public class PersonController extends SelectorComposer<Component> {
 
     @Listen("onClick = #removeButton")
     public void removeButton() {
+        List<Book> bookList = bookServiceImpl.getAllReservedByUsername(selectedPerson.getUser().getUsername());
+
         EventListener<Messagebox.ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
             public void onEvent(Messagebox.ClickEvent event) throws Exception {
                 if (Messagebox.Button.YES.equals(event.getButton())) {
@@ -118,8 +125,16 @@ public class PersonController extends SelectorComposer<Component> {
                 }
             }
         };
-        Messagebox.show(String.format("Confirma a remoção de %s ?", selectedPerson.getName()), "Remover pessoa", new Messagebox.Button[]{
-                Messagebox.Button.YES, Messagebox.Button.NO}, Messagebox.QUESTION, clickListener);
+
+        final StringBuilder msg = new StringBuilder(String.format("Confirma a remoção de %s ?\n", selectedPerson.getName()));
+
+        if (bookList.size() > 0){
+            msg.append("\n").append("Os seguintes livros reservados serão devolvidos:\n");
+            bookList.forEach(book -> msg.append(book.getName()).append("\n"));
+        }
+
+        Messagebox.show(msg.toString(), "Remover pessoa", new Messagebox.Button[]{
+                Messagebox.Button.YES, Messagebox.Button.NO}, Messagebox.EXCLAMATION, clickListener);
     }
 
     @Listen("onClick = #resetButton")

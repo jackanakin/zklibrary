@@ -12,5 +12,5 @@ public interface IPersonService {
 
     public void update(Person previous, Person next) throws Exception;
 
-    public void delete(Person person);
+    public void delete(Person person) throws Exception;
 }

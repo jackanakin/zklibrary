@@ -75,6 +75,8 @@ public class BookServiceImpl implements IBookService {
         }
 
         Person person = personDAO.findByUserUsername(username);
+        if (person == null) throw new Exception("Verifique se o seu cadastro está ativo!");
+
         book.setPerson(person);
 
         bookDAO.save(book);

@@ -84,14 +84,14 @@ public class MyInventoryController extends SelectorComposer<Component> {
 
                     bookServiceImpl.returnBook(selectedBook);
 
-                    Messagebox.show(String.format("Livro %s devolvido", selectedBook.getName()));
+                    Messagebox.show(String.format("Livro '%s' devolvido", selectedBook.getName()));
                     resetSelection();
                     loadBookList();
                 }
             }
         };
 
-        Messagebox.show(String.format("Deseja devolver o livro ? \nNome: %s", selectedBook.getName()), "Devolver livro", new Messagebox.Button[]{
+        Messagebox.show(String.format("Deseja devolver o livro '%s' ?", selectedBook.getName()), "Devolver livro", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO}, Messagebox.QUESTION, clickListener);
     }
 

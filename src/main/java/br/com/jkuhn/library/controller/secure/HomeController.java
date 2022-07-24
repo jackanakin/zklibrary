@@ -98,14 +98,14 @@ public class HomeController extends SelectorComposer<Component> {
 
                     bookServiceImpl.reserveBook(selectedBook, username);
 
-                    Messagebox.show(String.format("Livro %s retirado", selectedBook.getName()));
+                    Messagebox.show(String.format("Livro '%s' retirado", selectedBook.getName()));
                     resetSelection();
                     loadBookList();
                 }
             }
         };
 
-        Messagebox.show(String.format("Deseja retirar o livro ? \nNome: %s", selectedBook.getName()), "Retirar livro", new Messagebox.Button[]{
+        Messagebox.show(String.format("Deseja retirar o livro '%s' ?", selectedBook.getName()), "Retirar livro", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO}, Messagebox.QUESTION, clickListener);
     }
 

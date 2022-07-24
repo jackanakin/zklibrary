@@ -2,15 +2,18 @@ package br.com.jkuhn.library.services.implementations;
 
 import br.com.jkuhn.library.configuration.UserRoles;
 import br.com.jkuhn.library.dao.IAuthoritieDAO;
+import br.com.jkuhn.library.dao.IBookDAO;
 import br.com.jkuhn.library.dao.IPersonDAO;
 import br.com.jkuhn.library.dao.IUserDAO;
 import br.com.jkuhn.library.entity.Authoritie;
+import br.com.jkuhn.library.entity.Book;
 import br.com.jkuhn.library.entity.Person;
 import br.com.jkuhn.library.entity.User;
 import br.com.jkuhn.library.services.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -20,7 +23,13 @@ public class PersonServiceImpl implements IPersonService {
     private IPersonDAO personDAO;
 
     @Autowired
+    private IBookDAO bookDAO;
+
+    @Autowired
     private IUserDAO userDAO;
+
+    @Autowired
+    private RestConsumerServiceImpl restConsumerServiceImpl;
 
     @Autowired
     private IAuthoritieDAO authoritieDAO;
@@ -86,8 +95,16 @@ public class PersonServiceImpl implements IPersonService {
     }
 
     @Override
-    public void delete(Person person) {
+    @Transactional
+    public void delete(Person person) throws Exception {
+        // Devolve os livros na API da INTERACT
+        List<Book> interactBookList = bookDAO.findAllByCodeIsNotNullAndPersonId(person.getId());
+        for (Book book : interactBookList) {
+            restConsumerServiceImpl.put(book.getCode(), 0);
+        }
+
         authoritieDAO.deleteAll(authoritieDAO.findByUsername(person.getUser().getUsername()));
+        bookDAO.removePersonFromBook(person);
         personDAO.delete(person);
     }
 }
