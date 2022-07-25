@@ -139,10 +139,10 @@ public class BookController extends SelectorComposer<Component> {
     }
 
     private void showError(String msg, Component ref) {
-        Clients.showNotification(msg, "error", ref, "end_center", 2000);
+        Clients.showNotification(msg, "error", ref, "end_center", 4000);
     }
 
     private void showInfo(String msg, Component ref) {
-        Clients.showNotification(msg, "info", ref, "end_center", 3000);
+        Clients.showNotification(msg, "info", ref, "end_center", 4000);
     }
 }
