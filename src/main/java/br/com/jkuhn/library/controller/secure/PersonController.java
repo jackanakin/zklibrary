@@ -72,7 +72,7 @@ public class PersonController extends SelectorComposer<Component> {
         String email = emailBox.getValue();
         String password = passwordBox.getValue();
 
-        Person person = new Person(name, email, password);
+        Person person = new Person(name, email.toLowerCase(), password);
         boolean newPerson = selectedPerson == null;
 
         boolean inputValidationOk = true;
