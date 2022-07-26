@@ -1,12 +1,22 @@
+## App
+server.port=${server_port:8080}
+logging.level.root=${logging_level:info}
+
 ## ZK Framework
 zk.homepage=login
 zk.zul-view-resolver-prefix=/zul
 zk.resource-uri=/zkres
 
 ## PostgreSQL
-spring.datasource.url=jdbc:postgresql://localhost:5432/library
-spring.datasource.username=libraryowner
-spring.datasource.password=libraryownerpasswd
+spring.datasource.url=jdbc:postgresql://${datasource_url:localhost:5432/zklibrary}
+spring.datasource.username=${datasource_user:libraryowner}
+spring.datasource.password=${datasource_password:libraryownerpasswd}
+
+## Flyway
+spring.flyway.enabled=${flyway_enabled:true}
+spring.flyway.url=jdbc:postgresql://${datasource_url:localhost:5432/zklibrary}
+spring.flyway.user=${datasource_password:libraryowner}
+spring.flyway.password=${datasource_user:libraryownerpasswd}
 
 ## Interact REST API
-remote.api=https://some.url/sa/rs/books
+remote.api=${remote_api:https://remote.api.com.br/sa/rs/books}

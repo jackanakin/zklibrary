@@ -10,3 +10,7 @@ INSERT INTO book VALUES (default, 'O Cavaleiro dos Sete Reinos', null, 0, null);
 INSERT INTO book VALUES (default, 'O Senhor dos Anéis', null, 0, null);
 INSERT INTO book VALUES (default, 'A Tormenta de Espadas', null, 0, null);
 INSERT INTO book VALUES (default, 'O Festim dos Corvos', null, 0, null);
+INSERT INTO book VALUES (default, 'ENDGAME | O Chamado', null, 0, null);
+INSERT INTO book VALUES (default, 'O Imperador', null, 0, null);
+INSERT INTO book VALUES (default, 'O Hobbit', null, 0, null);
+INSERT INTO book VALUES (default, 'Rei do Inverno', null, 0, null);

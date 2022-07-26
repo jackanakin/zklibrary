@@ -5,6 +5,7 @@ create table users(
 	password TEXT not null,
 	enabled boolean not null
 );
+
 create table authorities (
 	id         	SERIAL PRIMARY KEY,
 	username TEXT not null unique,
@@ -24,7 +25,7 @@ CREATE TABLE book (
   id         	SERIAL PRIMARY KEY,
   name	            TEXT NOT NULL,
   code       TEXT DEFAULT NULL,
-  booked     INT DEFAULT NOT NULL,
+  booked     INT DEFAULT 0,
   booked_person_id         	INT NULL,
   constraint fk_book_person foreign key(booked_person_id) references person(id)
 );

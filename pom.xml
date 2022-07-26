@@ -17,6 +17,7 @@
 		<postgresql.version>42.3.3</postgresql.version>
 		<zkspring.version>4.0.1</zkspring.version>
 		<zk.version>9.6.0.2</zk.version>
+		<flywaydb.version>8.5.13</flywaydb.version>
 	</properties>
 	<description>Projeto desafio da Interact</description>
 	<repositories>
@@ -69,6 +70,13 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.version}</version>
+		</dependency>
+
+		<!-- Flyway -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>${flywaydb.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
