@@ -102,6 +102,7 @@ public class PersonServiceImpl implements IPersonService {
         for (Book book : interactBookList) {
             restConsumerServiceImpl.put(book.getCode(), 0);
         }
+        bookDAO.deleteAll(interactBookList);
 
         authoritieDAO.deleteAll(authoritieDAO.findByUsername(person.getUser().getUsername()));
         bookDAO.removePersonFromBook(person);

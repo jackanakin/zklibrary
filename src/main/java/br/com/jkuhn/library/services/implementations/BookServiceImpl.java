@@ -65,6 +65,9 @@ public class BookServiceImpl implements IBookService {
 
     @Override
     public void reserveBook(Book book, String username) throws Exception {
+        Person person = personDAO.findByUserUsername(username);
+        if (person == null) throw new Exception("Verifique se o seu cadastro está ativo!");
+
         if (book.getCode() != null){
             //SE FOR LIVRO DA API
             restConsumerServiceImpl.put(book.getCode(), 1);
@@ -74,11 +77,8 @@ public class BookServiceImpl implements IBookService {
             if (bookReserved.getPerson() != null) throw new Exception("Este livro acabou de ser reservado por outra pessoa");
         }
 
-        Person person = personDAO.findByUserUsername(username);
-        if (person == null) throw new Exception("Verifique se o seu cadastro está ativo!");
-
         book.setPerson(person);
-
+        book.setBooked(1);
         bookDAO.save(book);
     }
 

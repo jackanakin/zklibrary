@@ -94,8 +94,6 @@ public class HomeController extends SelectorComposer<Component> {
         EventListener<Messagebox.ClickEvent> clickListener = new EventListener<Messagebox.ClickEvent>() {
             public void onEvent(Messagebox.ClickEvent event) throws Exception {
                 if (Messagebox.Button.YES.equals(event.getButton())) {
-                    selectedBook.setBooked(1);
-
                     bookServiceImpl.reserveBook(selectedBook, username);
 
                     Messagebox.show(String.format("Livro '%s' retirado", selectedBook.getName()));
