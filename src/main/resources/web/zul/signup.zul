@@ -1,3 +1,4 @@
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk xmlns:n="native">
     <?page title="Biblioteca Interact"?>
     <?link rel="stylesheet" type="text/css" href="zkres/web/css/bootstrap.min.css"?>
@@ -14,8 +15,13 @@
             </n:div>
 
             <n:div class="form-outline mb-4">
-                <n:label class="form-label" for="loginName">Email</n:label>
-                <n:input type="email" id="loginName" class="form-control"/>
+                <n:label class="form-label" for="loginName">Nome</n:label>
+                <n:input id="loginName" class="form-control"/>
+            </n:div>
+
+            <n:div class="form-outline mb-4">
+                <n:label class="form-label" for="loginEmail">Email</n:label>
+                <n:input id="loginEmail" class="form-control"/>
             </n:div>
 
             <n:div class="form-outline mb-4">
@@ -23,13 +29,8 @@
                 <n:input type="password" id="loginPassword" class="form-control"/>
             </n:div>
 
-            <n:div class="form-outline mb-4">
-                <n:label class="form-label" for="loginPasswordConfirmation">Confirmação da senha</n:label>
-                <n:input type="password" id="loginPasswordConfirmation" class="form-control"/>
-            </n:div>
-
             <!-- Submit button -->
-            <n:button type="submit" class="btn btn-primary btn-block mb-4">CRIAR</n:button>
+            <n:button type="submit" sclass="btn btn-primary btn-block mb-4" onClick="alert('Funcionalidade ainda não implementada! Faça login com sysadmin/fun123');" >CRIAR</n:button>
 
             <!-- Register buttons -->
             <n:div class="text-center">

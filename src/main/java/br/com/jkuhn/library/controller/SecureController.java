@@ -6,8 +6,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class SecureController {
-    @GetMapping("/signup")
+
+    @GetMapping("/login")
     public String login() {
+        return "login";
+    }
+
+    @GetMapping("/signup")
+    public String signup() {
         return "signup";
     }
 
@@ -15,4 +21,5 @@ public class SecureController {
     public String secure(@PathVariable String page) {
         return "secure/" + page;
     }
+
 }
