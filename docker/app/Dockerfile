@@ -1,4 +1,4 @@
-FROM amazoncorretto:18.0.2
+FROM openjdk:8-jdk
 
 MAINTAINER github/jackanakin
 
