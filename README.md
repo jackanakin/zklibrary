@@ -17,8 +17,8 @@ https://zklibrary.kuhn.dev.br/
 
 | Tipo | url | valor |
 |------|-----|-------|
-| GET  | http://localhost:8080/rs/books/ | |
-| GET  | http://localhost:8080/rs/books/{id} | id = código do livro |
+| GET  | https://zklibrary.kuhn.dev.br/rs/books/ | |
+| GET  | https://zklibrary.kuhn.dev.br/rs/books/{id} | id = código do livro |
 
 - [x] Utilizar o Framework ZK
 - [ ] Permitir filtros nas listagens
