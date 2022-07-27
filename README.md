@@ -8,13 +8,15 @@ Desenvolver uma aplicação Java Web com acesso a um banco de dados, realizando 
 - [x] Permitir que o usuário retire o livro (existe apenas uma cópia de cada livro);
 - [x] Listar as minhas reservas dos livros e os livros disponíveis,
 - [x] Além do cadastro de livros, o sistema deve consultar e reservar os livros disponibilizados através api rest: https://sa.interact.com.br/sa/rs/books
-- [ ] Permitir filtros nas listagens
 - [x] Habilitar uma REST api para consulta delas, não é necessário autenticação
+
 | Tipo | url | valor |
 |------|-----|-------|
-| GET | http://localhost:8080/rs/books/ | |
-| GET | http://localhost:8080/rs/books/{id} | id = código do livro |
+| GET  | http://localhost:8080/rs/books/ | |
+| GET  | http://localhost:8080/rs/books/{id} | id = código do livro |
+
 - [x] Utilizar o Framework ZK
+- [ ] Permitir filtros nas listagens
 
 
 
@@ -51,7 +53,8 @@ Pronto, agora basta acessar http://localhost:8080, já deixei o usuário sysadmi
 
 #### 2. Build manual: 
 :warning: Se fizer o deploy localmente usar a versão de JAVA 'openjdk:8-jdk'<br/>
-Renomeie o arquivo 'src/main/resources/application.properties.dev' para 'src/main/resources/application.properties'<br/>
+>Renomeie o arquivo 'src/main/resources/application.properties.dev' para 'src/main/resources/application.properties'<br/>
+
 Altere apenas os parâmetros de conexão com o 'PostgreSQL' e 'Flyway', também pode deixar como está e apenas seguir os comandos abaixo
 
 Execute os comandos abaixo na raíz:
