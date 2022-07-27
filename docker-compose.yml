@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  zk_database:
+    image: postgres:14.4
+    environment:
+      - POSTGRES_USER=libraryowner
+      - POSTGRES_PASSWORD=libraryownerpasswd
+      - POSTGRES_DB=zklibrary
+    networks:
+      - zk_network
+    volumes:
+      - zk_volume:/var/lib/postgresql/data
+
+  zk_app:
+    image: jackanakin/zklibrary
+    ports:
+      - "8080:8080"
+    environment:
+      - datasource_url=zk_database:5432/zklibrary
+    networks:
+      - zk_network
+
+networks:
+  zk_network:
+
+volumes:
+  zk_volume:
