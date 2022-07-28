@@ -1,6 +1,11 @@
 ## Desafio: Biblioteca Interact
 Desenvolver uma aplicação Java Web com acesso a um banco de dados, realizando inserções e consultas
 
+### Resultado (Live Demo)
+https://zklibrary.kuhn.dev.br/
+<br/>sysadmin/fun123
+
+
 ### Features
 - [x] CRUD de livros (campos obrigatórios: código e nome);
 - [x] CRUD de pessoas (campos obrigatórios: nome, senha, e email);
@@ -12,8 +17,8 @@ Desenvolver uma aplicação Java Web com acesso a um banco de dados, realizando 
 
 | Tipo | url | valor |
 |------|-----|-------|
-| GET  | http://localhost:8080/rs/books/ | |
-| GET  | http://localhost:8080/rs/books/{id} | id = código do livro |
+| GET  | https://zklibrary.kuhn.dev.br/rs/books/ | |
+| GET  | https://zklibrary.kuhn.dev.br/rs/books/{id} | id = código do livro |
 
 - [x] Utilizar o Framework ZK
 - [ ] Permitir filtros nas listagens
@@ -32,17 +37,16 @@ Desenvolver uma aplicação Java Web com acesso a um banco de dados, realizando 
 ### Diagrama ER
 ![alt text](https://github.com/jackanakin/zklibrary/blob/main/er_db.png?raw=true)
 
-### Deploy/Build
+## Deploy/Build
 Escolha um dos métodos abaixo para fazer o deploy<br/>
-<br/>
-:warning:	O banco de dados é gerenciado pelo flyway, não é necessário executar '.sql' manualmente<br/>
+>:warning:	O banco de dados é gerenciado pelo flyway, não é necessário executar '.sql' manualmente<br/>
 
-#### 1. Docker compose:
+### 1. Docker compose:
 > docker compose up -d
 
 Pronto, agora basta aguardar 15 segundos e acessar http://localhost:8080, já deixei o usuário sysadmin/fun123 memorizado na tela de login
 
-#### 2. Docker c/ containers avulsos: 
+### 2. Docker c/ containers avulsos: 
 
 Execute os comandos abaixo para levantar uma 'network' + 'postgres' + 'app', você pode manter os parâmetros como estão para um deploy de teste
 > docker network create zklibrarynetwork
@@ -54,7 +58,7 @@ Aguarde 15 segundos para o banco de dados começar a aceitar conexões, altere a
 
 Pronto, agora basta acessar http://localhost:8080, já deixei o usuário sysadmin/fun123 memorizado na tela de login
 
-#### 3. Build manual: 
+### 3. Build manual: 
 :warning: Se fizer o deploy localmente usar a versão de JAVA 'openjdk:8-jdk'<br/>
 >Renomeie o arquivo 'src/main/resources/application.properties.dev' para 'src/main/resources/application.properties'
 
