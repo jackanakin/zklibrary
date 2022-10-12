@@ -12,7 +12,7 @@ https://zklibrary.kuhn.dev.br/
 - [x] Exigir login ao entrar no sistema;
 - [x] Permitir que o usuário retire o livro (existe apenas uma cópia de cada livro);
 - [x] Listar as minhas reservas dos livros e os livros disponíveis,
-- [x] Além do cadastro de livros, o sistema deve consultar e reservar os livros disponibilizados através api rest: https://sa.interact.com.br/sa/rs/books
+- [x] Além do cadastro de livros, o sistema deve consultar e reservar os livros disponibilizados através api rest: https://remotelibrary/books
 - [x] Habilitar uma REST api para consulta delas, não é necessário autenticação
 
 | Tipo | url | valor |
